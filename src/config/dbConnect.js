@@ -1,8 +1,7 @@
 import mongoose from "mongoose"
 
-
 async function connectDB() {
-    mongoose.connect("mongodb://127.0.0.1:27017/library")
+    mongoose.connect(process.env.DB_CONNECTION_STRING)
     return mongoose.connection
 }
 
