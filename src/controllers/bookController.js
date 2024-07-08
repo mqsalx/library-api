@@ -6,7 +6,6 @@ class BookController {
         try {
             const listBooks = await books.find({})
             res.status(200).json(listBooks)
-
         } catch(error) {
             res.status(500).json({message: `${error.message} - Error at getting books`})
         }
@@ -17,7 +16,6 @@ class BookController {
             const id = req.params.id
             const retrieveBook = await books.findById(id)
             res.status(200).json(retrieveBook)
-
         } catch(error) {
             res.status(500).json({message: `${error.message} - Error at getting book by id`})
         }
@@ -27,7 +25,7 @@ class BookController {
     static async postBook(req, res) {
         try{
             const createBook = await books.create(req.body)
-            res.status(201).json({message: "Book added", book: createBook})
+            res.status(201).json({message: "Book added"})
         } catch (error) {
             res.status(500).json({message: `${error.message} - Error at adding book`})
         }
@@ -37,7 +35,7 @@ class BookController {
         try {
             const id = req.params.id
             const updateBook = await books.findByIdAndUpdate(id, req.body)
-            res.status(200).json({ message: "Book updated", book: updateBook })
+            res.status(200).json({ message: "Book updated"})
         } catch(error) {
             res.status(500).json({message: `${error.message} - Error at updating book`})
         }
