@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 
+
 const authorSchema = new mongoose.Schema({
     id: {
         type: mongoose.Schema.Types.ObjectId
@@ -15,7 +16,4 @@ const authorSchema = new mongoose.Schema({
 
 const authors = mongoose.model("authors", authorSchema)
 
-export {
-    authors,
-    authorSchema
-}
+export default authors
