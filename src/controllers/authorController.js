@@ -1,55 +1,60 @@
-import author from "../models/Author.js"
+import { author } from "../models/Author.js"
 
 class AuthorController {
 
-    static async getAuthors(req, res) {
+    static async getAuthors(req, res, next) {
         try {
-            const listAuthors = await books.find({})
+            const listAuthors = await author.find({})
             res.status(200).json(listAuthors)
-        } catch(error) {
-            res.status(500).json({message: `${error.message} - Error at getting authors`})
+        } catch (error) {
+            next(error)
         }
     }
 
-    static async getAuthor(req, res) {
+    static async getAuthor(req, res, next) {
         try {
             const id = req.params.id
-            const retrieveAuthor = await books.findById(id)
-            res.status(200).json(retrieveAuthor)
-        } catch(error) {
-            res.status(500).json({message: `${error.message} - Error at getting author by id`})
+            const retrieveAuthor = await author.findById(id)
+
+            if (retrieveAuthor !== null) {
+                res.status(200).json(retrieveAuthor)
+            } else {
+                res.status(404).json({message:  "Author not found"})
+            }
+
+        } catch (error) {
+            next(error)
         }
     }
 
-
-    static async postAuthor(req, res) {
+    static async postAuthor(req, res, next) {
         try{
-            const createAuthor = await books.create(req.body)
+            const createAuthor = await author.create(req.body)
             res.status(201).json({message: "Author added"})
         } catch (error) {
-            res.status(500).json({message: `${error.message} - Error at adding author`})
+            next(error)
         }
     }
 
-    static async putAuthor(req, res) {
+    static async putAuthor(req, res, next) {
         try {
             const id = req.params.id
-            const updateAuthor = await books.findByIdAndUpdate(id, req.body)
+            const updateAuthor = await author.findByIdAndUpdate(id, req.body)
             res.status(200).json({ message: "Author updated"})
-        } catch(error) {
-            res.status(500).json({message: `${error.message} - Error at updating author`})
+        } catch (error) {
+            next(error)
         }
     }
 
-    static async deleteAuthor(req, res) {
+    static async deleteAuthor(req, res, next) {
         try {
             const id = req.params.id
-            const removeAuthor = await books.findByIdAndDelete(id)
+            const removeAuthor = await author.findByIdAndDelete(id)
             res.status(200).json({ message: "Author deleted"})
-        } catch(error) {
-            res.status(500).json({message: `${error.message} - Error at deleting author`})
+        } catch (error) {
+            next(error)
         }
     }
 }
 
-export default BookController
+export default AuthorController
