@@ -1,11 +1,11 @@
 import NotFound from "../errors/notFound.js"
-import { author } from "../models/Author.js"
+import { authors } from "../models/Author.js"
 
 class AuthorController {
 
     static async getAuthors(req, res, next) {
         try {
-            const listAuthors = await author.find({})
+            const listAuthors = await authors.find({})
             res.status(200).json(listAuthors)
         } catch (error) {
             next(error)
@@ -15,7 +15,7 @@ class AuthorController {
     static async getAuthor(req, res, next) {
         try {
             const id = req.params.id
-            const retrieveAuthor = await author.findById(id)
+            const retrieveAuthor = await authors.findById(id)
 
             if (retrieveAuthor !== null) {
                 res.status(200).json(retrieveAuthor)
@@ -30,8 +30,9 @@ class AuthorController {
 
     static async postAuthor(req, res, next) {
         try{
-            const createAuthor = await author.create(req.body)
-            res.status(201).json({message: "Author added"})
+            let author = new authors(req.body);
+            const newAuthor = await author.save();
+            res.status(201).json(newAuthor.toJSON())
         } catch (error) {
             next(error)
         }
@@ -40,7 +41,7 @@ class AuthorController {
     static async putAuthor(req, res, next) {
         try {
             const id = req.params.id
-            const updateAuthor = await author.findByIdAndUpdate(id, {$set: req.body})
+            const updateAuthor = await authors.findByIdAndUpdate(id, {$set: req.body})
 
             if (updateAuthor !== null) {
                 res.status(200).json({ message: "Author updated"})
@@ -56,7 +57,7 @@ class AuthorController {
     static async deleteAuthor(req, res, next) {
         try {
             const id = req.params.id
-            const removeAuthor = await author.findByIdAndDelete(id)
+            const removeAuthor = await authors.findByIdAndDelete(id)
 
             if (removeAuthor !== null) {
                 res.status(200).json({ message: "Author deleted"})

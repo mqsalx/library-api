@@ -1,4 +1,3 @@
-import { author } from "../models/Author.js"
 import books from "../models/Book.js"
 import NotFound from "../errors/notFound.js"
 
@@ -31,12 +30,10 @@ class BookController {
 
 
     static async postBook(req, res, next) {
-        const createBook = req.body
         try{
-            const authorFound = await author.findById(createBook.author)
-            const completeBook = { ...createBook, author: { ...authorFound._doc} }
-            const newBook = await books.create(completeBook)
-            res.status(201).json({message: "Book added"})
+            let book = new books(req.body);
+            const newBook = await book.save();
+            res.status(201).json(newBook.toJSON())
         } catch (error) {
             next(error)
         }
