@@ -1,5 +1,6 @@
 import { author } from "../models/Author.js"
 import books from "../models/Book.js"
+import NotFound from "../errors/notFound.js"
 
 class BookController {
 
@@ -16,7 +17,13 @@ class BookController {
         try {
             const id = req.params.id
             const retrieveBook = await books.findById(id)
-            res.status(200).json(retrieveBook)
+
+            if (retrieveBook !== null) {
+                res.status(200).json(retrieveBook)
+            } else {
+               next(new NotFound("Book not found"))
+            }
+
         } catch (error) {
             next(error)
         }
@@ -38,9 +45,16 @@ class BookController {
     static async putBook(req, res, next) {
         try {
             const id = req.params.id
-            const updateBook = await books.findByIdAndUpdate(id, req.body)
-            res.status(200).json({ message: "Book updated"})
+            const updateBook = await books.findByIdAndUpdate(id, {$set: req.body})
+            console.log(updateBook)
+            if (updateBook !== null) {
+                res.status(200).json({ message: "Book updated"})
+            } else {
+               next(new NotFound("Book not found"))
+            }
+
         } catch (error) {
+            console.log(error)
             next(error)
         }
     }

@@ -1,3 +1,4 @@
+import NotFound from "../errors/notFound.js"
 import { author } from "../models/Author.js"
 
 class AuthorController {
@@ -19,7 +20,7 @@ class AuthorController {
             if (retrieveAuthor !== null) {
                 res.status(200).json(retrieveAuthor)
             } else {
-                res.status(404).json({message:  "Author not found"})
+               next(new NotFound("Author not found"))
             }
 
         } catch (error) {
@@ -39,8 +40,14 @@ class AuthorController {
     static async putAuthor(req, res, next) {
         try {
             const id = req.params.id
-            const updateAuthor = await author.findByIdAndUpdate(id, req.body)
-            res.status(200).json({ message: "Author updated"})
+            const updateAuthor = await author.findByIdAndUpdate(id, {$set: req.body})
+
+            if (updateAuthor !== null) {
+                res.status(200).json({ message: "Author updated"})
+            } else {
+               next(new NotFound("Author not found"))
+            }
+
         } catch (error) {
             next(error)
         }
