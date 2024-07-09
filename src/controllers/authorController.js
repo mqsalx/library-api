@@ -57,7 +57,13 @@ class AuthorController {
         try {
             const id = req.params.id
             const removeAuthor = await author.findByIdAndDelete(id)
-            res.status(200).json({ message: "Author deleted"})
+
+            if (removeAuthor !== null) {
+                res.status(200).json({ message: "Author deleted"})
+            } else {
+               next(new NotFound("Author not found"))
+            }
+
         } catch (error) {
             next(error)
         }

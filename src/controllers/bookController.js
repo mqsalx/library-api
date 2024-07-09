@@ -46,7 +46,7 @@ class BookController {
         try {
             const id = req.params.id
             const updateBook = await books.findByIdAndUpdate(id, {$set: req.body})
-            console.log(updateBook)
+
             if (updateBook !== null) {
                 res.status(200).json({ message: "Book updated"})
             } else {
@@ -63,7 +63,13 @@ class BookController {
         try {
             const id = req.params.id
             const removeBook = await books.findByIdAndDelete(id)
-            res.status(200).json({ message: "Book deleted"})
+
+            if (updateBook !== null) {
+                res.status(200).json({ message: "Book deleted"})
+            } else {
+               next(new NotFound("Book not found"))
+            }
+
         } catch (error) {
             next(error)
         }
