@@ -1,6 +1,14 @@
 # library-api
 
 
-This project is a RESTful API for managing a bookstore, developed using Node.js, JavaScript, and Mongoose for MongoDB integration.
+This project is built with Node.js, Express, JavaScript and Mongoose for integration with MongoDB. It includes a number of features for CRUD operations, advanced search and filters, and pagination.
 
-This project implements an error handling system for CRUD (Create, Read, Update, Delete) operations. The goal is to ensure that all potential failures are captured and handled appropriately, providing useful feedback and maintaining data integrity.
+Error Handling in CRUD:
+The error handling system ensures that all CRUD (Create, Read, Update, Delete) operations are performed safely and that any failures are managed appropriately.
+
+
+Specific search and filters:
+The project implements advanced search and filtering functionalities to facilitate data retrieval based on specific criteria.
+
+Pagination:
+Pagination is revamped for data management, improving performance and usability.
